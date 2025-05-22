@@ -1,0 +1,88 @@
+{
+  "timestamp": "2025-05-21T15:55:56.567257",
+  "total_videos": 10,
+  "videos_with_russian": 0,
+  "successful_retrievals": 0,
+  "results": [
+    {
+      "video_id": "xXU4-tiX4Wk",
+      "timestamp": "2025-05-21T15:55:56.549312",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "dQw4w9WgXcQ",
+      "timestamp": "2025-05-21T15:55:56.552123",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "9bZkp7q19f0",
+      "timestamp": "2025-05-21T15:55:56.554227",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "KQ6zr6kCPj8",
+      "timestamp": "2025-05-21T15:55:56.556014",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "JGwWNGJdvx8",
+      "timestamp": "2025-05-21T15:55:56.557531",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "OPf0YbXqDm0",
+      "timestamp": "2025-05-21T15:55:56.559071",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "kOkQ4T5WO9E",
+      "timestamp": "2025-05-21T15:55:56.560511",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "tgbNymZ7vqY",
+      "timestamp": "2025-05-21T15:55:56.561901",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "2Vv-BfVoq4g",
+      "timestamp": "2025-05-21T15:55:56.563634",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    },
+    {
+      "video_id": "JGwWNGJdvx9",
+      "timestamp": "2025-05-21T15:55:56.565896",
+      "success": false,
+      "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+      "transcript_available": false,
+      "languages": []
+    }
+  ]
+}

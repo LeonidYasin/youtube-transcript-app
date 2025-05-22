@@ -1,0 +1,16 @@
+{
+  "video_info": {
+    "video_id": "4MgbcbjBaRg",
+    "title": "הרב יצחק גינזבורג -  סוד הצפרדע",
+    "url": "https://www.youtube.com/watch?v=4MgbcbjBaRg",
+    "duration": "2:02:51",
+    "view_count": "776 views",
+    "published_time": "3 months ago",
+    "thumbnail": "https://img.youtube.com/vi/4MgbcbjBaRg/hqdefault.jpg"
+  },
+  "transcript": {
+    "status": "error",
+    "message": "'charmap' codec can't encode characters in position 27-29: character maps to <undefined>"
+  },
+  "retrieved_at": "2025-05-21T19:57:15.895528"
+}

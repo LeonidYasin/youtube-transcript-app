@@ -1,0 +1,26 @@
+=== Application Test Report ===
+Date: 2025-05-21 16:07:24
+Total videos tested: 3
+Successfully processed: 0
+Failed: 3
+
+
+=== Detailed Results ===
+
+Video 1: xXU4-tiX4Wk
+Status: exception
+HTTP Status: 200
+Error: Expecting value: line 1 column 1 (char 0)
+Transcript length: 0 characters
+
+Video 2: 9bZkp7q19f0
+Status: exception
+HTTP Status: 200
+Error: Expecting value: line 1 column 1 (char 0)
+Transcript length: 0 characters
+
+Video 3: tgbNymZ7vqY
+Status: exception
+HTTP Status: 200
+Error: Expecting value: line 1 column 1 (char 0)
+Transcript length: 0 characters

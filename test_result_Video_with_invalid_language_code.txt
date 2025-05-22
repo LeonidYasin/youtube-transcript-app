@@ -1,0 +1,7 @@
+Test: Video with invalid language code
+URL: dQw4w9WgXcQ
+Language: xx
+Status Code: 500
+Response Time: 3.54 seconds
+--------------------------------------------------
+{"detail":"Internal server error"}

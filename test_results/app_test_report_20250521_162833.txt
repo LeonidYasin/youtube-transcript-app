@@ -1,0 +1,23 @@
+=== Application Test Report ===
+Date: 2025-05-21 16:28:33
+Total videos tested: 3
+Successfully processed: 3
+Failed: 0
+
+
+=== Detailed Results ===
+
+Video 1: xXU4-tiX4Wk
+Status: success
+HTTP Status: 200
+Transcript length: 167151 characters
+
+Video 2: 9bZkp7q19f0
+Status: success
+HTTP Status: 200
+Transcript length: 286 characters
+
+Video 3: tgbNymZ7vqY
+Status: success
+HTTP Status: 200
+Transcript length: 1243 characters

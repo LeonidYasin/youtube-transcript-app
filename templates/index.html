@@ -1,0 +1,97 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>YouTube Transcript</title>
+        <style>
+            body { 
+                font-family: Arial, sans-serif; 
+                margin: 40px;
+                line-height: 1.6;
+            }
+            .container { 
+                max-width: 800px; 
+                margin: 0 auto; 
+                padding: 20px;
+            }
+            h1 { 
+                color: #d32f2f; 
+                text-align: center;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            button {
+                background: #d32f2f;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #b71c1c;
+            }
+            #result {
+                margin-top: 20px;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                min-height: 100px;
+                white-space: pre-wrap;
+            }
+            .error {
+                color: #d32f2f;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>YouTube Transcript</h1>
+            <div class="form-group">
+                <label for="videoUrl">Введите URL видео с YouTube:</label>
+                <input type="text" id="videoUrl" value="https://www.youtube.com/watch?v=7CmkwhWqUzE" placeholder="Вставьте URL видео">
+                <button onclick="getTranscript()">Получить транскрипт</button>
+            </div>
+            <div id="result"></div>
+        </div>
+        <script>
+        async function getTranscript() {
+            const url = document.getElementById('videoUrl').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!url) {
+                resultDiv.innerHTML = '<div class="error">Пожалуйста, введите URL видео</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = 'Загружаем транскрипт...';
+            
+            try {
+                const response = await fetch(`/api/transcript?url=${encodeURIComponent(url)}`);
+                const data = await response.json();
+                
+                if (data.transcript) {
+                    resultDiv.textContent = data.transcript;
+                } else if (data.error) {
+                    resultDiv.innerHTML = `<div class="error">${data.error}</div>`;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">Транскрипт не найден</div>';
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                resultDiv.innerHTML = `<div class="error">Ошибка: ${error.message}</div>`;
+            }
+        }
+        </script>
+    </body>
+    </html>
+    

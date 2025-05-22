@@ -1,0 +1,92 @@
+{
+  "timestamp": "2025-05-21T16:05:37.890729",
+  "total_videos": 3,
+  "successful": 0,
+  "failed": 3,
+  "results": [
+    {
+      "video_id": "xXU4-tiX4Wk",
+      "status": "error",
+      "start_time": "2025-05-21T16:05:37.853597",
+      "end_time": "2025-05-21T16:05:37.877751",
+      "response": {
+        "status_code": 422,
+        "headers": {
+          "content-length": "89",
+          "content-type": "application/json"
+        }
+      },
+      "error": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "query",
+              "url"
+            ],
+            "msg": "Field required",
+            "input": null
+          }
+        ]
+      },
+      "transcript": null,
+      "transcript_length": 0
+    },
+    {
+      "video_id": "9bZkp7q19f0",
+      "status": "error",
+      "start_time": "2025-05-21T16:05:37.877852",
+      "end_time": "2025-05-21T16:05:37.884970",
+      "response": {
+        "status_code": 422,
+        "headers": {
+          "content-length": "89",
+          "content-type": "application/json"
+        }
+      },
+      "error": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "query",
+              "url"
+            ],
+            "msg": "Field required",
+            "input": null
+          }
+        ]
+      },
+      "transcript": null,
+      "transcript_length": 0
+    },
+    {
+      "video_id": "tgbNymZ7vqY",
+      "status": "error",
+      "start_time": "2025-05-21T16:05:37.885060",
+      "end_time": "2025-05-21T16:05:37.889856",
+      "response": {
+        "status_code": 422,
+        "headers": {
+          "content-length": "89",
+          "content-type": "application/json"
+        }
+      },
+      "error": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "query",
+              "url"
+            ],
+            "msg": "Field required",
+            "input": null
+          }
+        ]
+      },
+      "transcript": null,
+      "transcript_length": 0
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Test: Non-existent video ID
+URL: thisisnotavideoid123
+Language: en
+Status Code: 400
+Response Time: 2.05 seconds
+--------------------------------------------------
+Invalid YouTube URL or video ID: thisisnotavideoid123

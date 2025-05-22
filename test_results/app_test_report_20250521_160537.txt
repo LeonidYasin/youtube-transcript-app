@@ -1,0 +1,26 @@
+=== Application Test Report ===
+Date: 2025-05-21 16:05:37
+Total videos tested: 3
+Successfully processed: 0
+Failed: 3
+
+
+=== Detailed Results ===
+
+Video 1: xXU4-tiX4Wk
+Status: error
+HTTP Status: 422
+Error: {'detail': [{'type': 'missing', 'loc': ['query', 'url'], 'msg': 'Field required', 'input': None}]}
+Transcript length: 0 characters
+
+Video 2: 9bZkp7q19f0
+Status: error
+HTTP Status: 422
+Error: {'detail': [{'type': 'missing', 'loc': ['query', 'url'], 'msg': 'Field required', 'input': None}]}
+Transcript length: 0 characters
+
+Video 3: tgbNymZ7vqY
+Status: error
+HTTP Status: 422
+Error: {'detail': [{'type': 'missing', 'loc': ['query', 'url'], 'msg': 'Field required', 'input': None}]}
+Transcript length: 0 characters

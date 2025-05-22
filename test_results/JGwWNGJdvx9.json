@@ -1,0 +1,8 @@
+{
+  "video_id": "JGwWNGJdvx9",
+  "timestamp": "2025-05-21T15:55:56.565896",
+  "success": false,
+  "error": "'YouTubeService' object has no attribute 'get_available_languages'",
+  "transcript_available": false,
+  "languages": []
+}

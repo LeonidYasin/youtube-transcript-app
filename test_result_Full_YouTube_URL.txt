@@ -1,0 +1,7 @@
+Test: Full YouTube URL
+URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Language: en
+Status Code: 500
+Response Time: 3.52 seconds
+--------------------------------------------------
+{"detail":"Internal server error"}

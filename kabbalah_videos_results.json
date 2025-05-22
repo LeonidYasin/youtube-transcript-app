@@ -1,0 +1,51 @@
+[
+  {
+    "id": "9dBk2VQ8aXQ",
+    "name": "Introduction to Kabbalah",
+    "status": "error",
+    "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=9dBk2VQ8aXQ! This is most likely caused by:\n\nThe video is no longer available\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
+    "url": "https://youtu.be/9dBk2VQ8aXQ"
+  },
+  {
+    "id": "k85mRPqvMbE",
+    "name": "What is Kabbalah?",
+    "language": "en",
+    "status": "success",
+    "available_languages": [
+      "en",
+      "en-US",
+      "bg"
+    ],
+    "transcript_length": 1143,
+    "sample": "Ding ding pch n daa, bam-ba-ba-re-bam\nbaram bom bom baba-bam-bam-bommm\nWh-wha-what's going on-on?\nding ding\nThis is the Crazy Frog!\nding ding\nbem bem\nring ding d-d ding ding\nring ding d-d bem bem bem\n...",
+    "url": "https://youtu.be/k85mRPqvMbE"
+  },
+  {
+    "id": "Y8yIJDEC0sQ",
+    "name": "The Power of Kabbalah",
+    "status": "error",
+    "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=Y8yIJDEC0sQ! This is most likely caused by:\n\nThe video is no longer available\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
+    "url": "https://youtu.be/Y8yIJDEC0sQ"
+  },
+  {
+    "id": "QxZMGiy6zsE",
+    "name": "Основы Каббалы",
+    "status": "error",
+    "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=QxZMGiy6zsE! This is most likely caused by:\n\nThe video is no longer available\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
+    "url": "https://youtu.be/QxZMGiy6zsE"
+  },
+  {
+    "id": "fRbq3WfWY1M",
+    "name": "יסודות הקבלה",
+    "status": "error",
+    "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=fRbq3WfWY1M! This is most likely caused by:\n\nThe video is no longer available\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
+    "url": "https://youtu.be/fRbq3WfWY1M"
+  },
+  {
+    "id": "J9VQTm7yTsY",
+    "name": "Kabbalah and Spirituality",
+    "status": "error",
+    "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=J9VQTm7yTsY! This is most likely caused by:\n\nThe video is no longer available\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!",
+    "url": "https://youtu.be/J9VQTm7yTsY"
+  }
+]

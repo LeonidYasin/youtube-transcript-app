@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-05-21T16:02:00.180195",
+  "total_videos": 10,
+  "videos_with_russian": 3,
+  "results": [
+    {
+      "video_id": "xXU4-tiX4Wk",
+      "has_russian": true,
+      "error": null,
+      "timestamp": "2025-05-21T15:58:58.937692",
+      "sample": "WEBVTT\nKind: captions\nLanguage: ru\n\n00:00:00.560 --> 00:00:10.040 align:start position:0%\n \nДак <00:00:00.799><c>Бумер</c>\n\n00:00:10.040 --> 00:00:10.050 align:start position:0%\n \n \n\n00:00:10.050 --> "
+    },
+    {
+      "video_id": "dQw4w9WgXcQ",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T15:59:11.077766"
+    },
+    {
+      "video_id": "9bZkp7q19f0",
+      "has_russian": true,
+      "error": null,
+      "timestamp": "2025-05-21T15:59:23.018609",
+      "sample": "WEBVTT\nKind: captions\nLanguage: ru\n\n00:00:10.000 --> 00:00:13.030 align:start position:0%\n \nopen <00:00:10.400><c>gam</c>\n\n00:00:13.030 --> 00:00:13.040 align:start position:0%\n \n \n\n00:00:13.040 --> 0"
+    },
+    {
+      "video_id": "KQ6zr6kCPj8",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T15:59:44.014782"
+    },
+    {
+      "video_id": "JGwWNGJdvx8",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T16:00:05.240854"
+    },
+    {
+      "video_id": "OPf0YbXqDm0",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T16:00:28.089000"
+    },
+    {
+      "video_id": "kOkQ4T5WO9E",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T16:00:49.193796"
+    },
+    {
+      "video_id": "tgbNymZ7vqY",
+      "has_russian": true,
+      "error": null,
+      "timestamp": "2025-05-21T16:01:10.939530",
+      "sample": "WEBVTT\nKind: captions\nLanguage: ru\n\n00:00:01.280 --> 00:00:04.950 align:start position:0%\n \nэто <00:00:01.759><c>ли </c><00:00:02.238><c>реальная </c><00:00:02.717><c>жизнь </c><00:00:03.196><c>это</c"
+    },
+    {
+      "video_id": "2Vv-BfVoq4g",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T16:01:32.923184"
+    },
+    {
+      "video_id": "JGwWNGJdvx9",
+      "has_russian": false,
+      "error": "No Russian subtitles found",
+      "timestamp": "2025-05-21T16:01:54.854740"
+    }
+  ]
+}

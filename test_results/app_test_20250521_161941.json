@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-05-21T16:19:41.813904",
+  "total_videos": 3,
+  "successful": 1,
+  "failed": 2,
+  "results": [
+    {
+      "video_id": "xXU4-tiX4Wk",
+      "status": "error",
+      "start_time": "2025-05-21T16:18:37.625180",
+      "end_time": "2025-05-21T16:18:59.663543",
+      "response": {
+        "status_code": 500,
+        "headers": {
+          "content-length": "128",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "content_type": "text/plain; charset=utf-8"
+      },
+      "error": "Unexpected response format: text/plain; charset=utf-8",
+      "transcript": null,
+      "transcript_length": 0,
+      "language_used": null
+    },
+    {
+      "video_id": "9bZkp7q19f0",
+      "status": "success",
+      "start_time": "2025-05-21T16:18:59.663764",
+      "end_time": "2025-05-21T16:19:20.848665",
+      "response": {
+        "status_code": 200,
+        "headers": {
+          "content-length": "428",
+          "content-type": "text/plain; charset=utf-8, text/plain; charset=utf-8",
+          "x-transcript-source": "manual"
+        },
+        "content_type": "text/plain; charset=utf-8, text/plain; charset=utf-8"
+      },
+      "error": null,
+      "transcript": "WEBVTT Kind: captions Language: ru open < star < star gam star gam star star star хорошо < знаю знаю знаю эй < эй < эй эй леди леди леди знаю < эй он < леди < леди звезда леди звезда эй < эй эй леди детка детка детка детка детка детка детка детка детка эй эй эй сидит звезда openam star",
+      "transcript_length": 286,
+      "language_used": "ru"
+    },
+    {
+      "video_id": "tgbNymZ7vqY",
+      "status": "error",
+      "start_time": "2025-05-21T16:19:20.849453",
+      "end_time": "2025-05-21T16:19:41.812293",
+      "response": {
+        "status_code": 500,
+        "headers": {
+          "content-length": "128",
+          "content-type": "text/plain; charset=utf-8"
+        },
+        "content_type": "text/plain; charset=utf-8"
+      },
+      "error": "Unexpected response format: text/plain; charset=utf-8",
+      "transcript": null,
+      "transcript_length": 0,
+      "language_used": null
+    }
+  ]
+}

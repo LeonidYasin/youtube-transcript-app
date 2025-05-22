@@ -1,0 +1,16 @@
+{
+  "video_info": {
+    "video_id": "TW0DIngXEQw",
+    "title": "הרב יצחק גינזבורג - קשב ורכוז",
+    "url": "https://www.youtube.com/watch?v=TW0DIngXEQw",
+    "duration": "8:14",
+    "view_count": "3,289 views",
+    "published_time": "3 months ago",
+    "thumbnail": "https://img.youtube.com/vi/TW0DIngXEQw/hqdefault.jpg"
+  },
+  "transcript": {
+    "status": "error",
+    "message": "'charmap' codec can't encode characters in position 27-29: character maps to <undefined>"
+  },
+  "retrieved_at": "2025-05-21T19:57:15.898473"
+}
