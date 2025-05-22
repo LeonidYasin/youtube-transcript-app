@@ -507,11 +507,3 @@ def _format_success_response(
     )
     
     return response_data
-    # Return response that matches the TranscriptResponse model
-    return TranscriptResponse(
-        status="success",
-        video_id=video_id,
-        language=language,
-        auto_generated=auto_generated,
-        transcript=cleaned_text
-    ).dict()
