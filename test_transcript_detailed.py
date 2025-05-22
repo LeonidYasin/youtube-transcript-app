@@ -2,48 +2,56 @@ import requests
 import json
 import sys
 
-def test_transcript_api():
+async def test_transcript_api():
     # Set default encoding to UTF-8
     sys.stdout.reconfigure(encoding='utf-8')
     
-    url = "http://localhost:8000/api/transcript"
-    params = {
-        "url": "https://www.youtube.com/watch?v=0f2XchA-b9A",
-        "language": "ru"
-    }
+    video_id = "tw9USlQh6jw"
+    test_url = f"https://www.youtube.com/watch?v={video_id}"
     
-    print("Testing YouTube Transcript API")
-    print("=" * 50)
-    print(f"Endpoint: {url}")
-    print(f"Video URL: {params['url']}")
-    print(f"Language: {params['language']}")
+    print("\nTesting YouTube Transcript API Methods")
+    print("=" * 80)
+    print(f"Testing video: {test_url}")
+    print("-" * 80)
     
+    # Test yt-dlp
+    print("\nTesting yt-dlp method...")
     try:
-        print("\nSending GET request...")
-        response = requests.get(url, params=params)
-        
-        print("\nResponse Status Code:", response.status_code)
-        print("Response Headers:")
-        for key, value in response.headers.items():
-            print(f"  {key}: {value}")
-        
-        # Try to get JSON response
-        try:
-            json_response = response.json()
-            print("\nResponse JSON:")
-            print(json.dumps(json_response, indent=2, ensure_ascii=False))
-        except ValueError:
-            # If not JSON, print raw content
-            print("\nResponse Content (not JSON):")
-            print(response.text[:1000])  # Print first 1000 chars
-            
-        print("\nRaw response content:")
-        print(response.content[:500])  # Print first 500 bytes
-            
+        from app.services.youtube import YouTubeService
+        youtube_service = YouTubeService()
+        result = youtube_service._get_subtitles_with_ytdlp(video_id, lang="ru")
+        print("\nResult:")
+        print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
         print("\nError:", str(e))
         import traceback
         traceback.print_exc()
+    
+    # Test new API
+    print("\nTesting YouTube Transcript API (New)...")
+    try:
+        result = await youtube_service._handle_new_api(video_id, lang="ru")
+        print("\nResult:")
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    except Exception as e:
+        print("\nError:", str(e))
+        import traceback
+        traceback.print_exc()
+    
+    # Test old API
+    print("\nTesting YouTube Transcript API (Old)...")
+    try:
+        result = await youtube_service._handle_old_api(video_id, lang="ru")
+        print("\nResult:")
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    except Exception as e:
+        print("\nError:", str(e))
+        import traceback
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(test_transcript_api())
 
 if __name__ == "__main__":
     test_transcript_api()

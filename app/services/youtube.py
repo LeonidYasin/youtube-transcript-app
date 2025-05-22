@@ -2,6 +2,7 @@
 YouTube service for handling video and transcript operations.
 """
 
+import asyncio
 import logging
 import pkg_resources
 import json
@@ -54,18 +55,20 @@ class YouTubeService:
         """Extract video ID from URL."""
         return extract_video_id(url)
     
-    def _handle_old_api(self, video_id: str, lang: str = "ru") -> Tuple[Optional[str], Optional[str]]:
+    async def _handle_old_api(self, video_id: str, lang: str = "ru") -> Tuple[Optional[str], Optional[str]]:
         """Handle transcript retrieval for older versions of the API (<=0.6.1)."""
-        if not YOUTUBE_TRANSCRIPT_AVAILABLE:
-            return None, "youtube-transcript-api not available"
-            
         try:
-            # First try with the requested language
+            loop = asyncio.get_event_loop()
+            
+            # First try to get the transcript in the specified language
             try:
-                transcript = YouTubeTranscriptApi.get_transcript(
-                    video_id, 
-                    languages=[lang],
-                    preserve_formatting=True
+                transcript = await loop.run_in_executor(
+                    None,
+                    lambda: YouTubeTranscriptApi.get_transcript(
+                        video_id,
+                        languages=[lang] if lang else None,
+                        preserve_formatting=True
+                    )
                 )
                 if transcript:
                     formatter = TextFormatter()
@@ -74,9 +77,12 @@ class YouTubeService:
             except Exception as e:
                 # If that fails, try to get any available transcript
                 try:
-                    transcript = YouTubeTranscriptApi.get_transcript(
-                        video_id,
-                        preserve_formatting=True
+                    transcript = await loop.run_in_executor(
+                        None,
+                        lambda: YouTubeTranscriptApi.get_transcript(
+                            video_id,
+                            preserve_formatting=True
+                        )
                     )
                     if transcript:
                         # We don't know the actual language with the old API, just return what we found
@@ -84,61 +90,59 @@ class YouTubeService:
                         transcript_text = formatter.format_transcript(transcript)
                         return transcript_text, "unknown"
                 except Exception as e2:
-                    pass  # We'll handle the error below
-            
-            # If we get here, both attempts failed
-            error_msg = str(e).lower()
-            if "no transcript found" in error_msg:
-                return None, f"No {'auto-generated ' if lang == 'en' else ''}transcript available in {lang}"
-            return None, f"Error retrieving transcript (old API): {str(e)}"
+                    logger.debug(f"Could not get any transcript: {str(e2)}")
+                
+                # If we get here, both attempts failed
+                error_msg = str(e).lower()
+                if "no transcript found" in error_msg:
+                    return None, f"No {'auto-generated ' if lang == 'en' else ''}transcript available in {lang}"
+                return None, f"Error retrieving transcript (old API): {str(e)}"
             
         except Exception as e:
-            error_msg = str(e).lower()
-            if "no transcript found" in error_msg:
-                return None, f"No {'auto-generated ' if lang == 'en' else ''}transcript available in {lang}"
-            return None, f"Error retrieving transcript (old API): {str(e)}"
-    
-    def _handle_new_api(self, video_id: str, lang: str = "ru", auto_generated: bool = False) -> Tuple[Optional[str], Optional[str]]:
+            return None, str(e)
+            
+    async def _handle_new_api(self, video_id: str, lang: str = "ru", auto_generated: bool = False) -> Tuple[Optional[str], Optional[str]]:
         """Handle transcript retrieval for newer versions of the API (>0.6.1)."""
         if not YOUTUBE_TRANSCRIPT_AVAILABLE:
             return None, "youtube-transcript-api not available"
             
         try:
-            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+            loop = asyncio.get_event_loop()
             
-            # Try to find the requested transcript
-            try:
-                if auto_generated:
-                    transcript = transcript_list.find_generated_transcript([lang])
-                else:
-                    transcript = transcript_list.find_manually_created_transcript([lang])
-                
-                transcript_pieces = transcript.fetch()
-                formatter = TextFormatter()
-                return formatter.format_transcript(transcript_pieces), None
-                
-            except Exception as e:
-                # If we couldn't find the exact match, try to find any transcript in the requested language
+            # Run the synchronous list_transcripts in a thread pool
+            transcript_list = await loop.run_in_executor(
+                None,
+                lambda: YouTubeTranscriptApi.list_transcripts(video_id)
+            )
+            
+            # Try to get manual transcript first if auto_generated is False
+            if not auto_generated:
                 try:
-                    transcript = transcript_list.find_transcript([lang])
-                    transcript_pieces = transcript.fetch()
+                    transcript = await loop.run_in_executor(
+                        None,
+                        lambda: transcript_list.find_manually_created_transcript([lang] if lang else None)
+                    )
+                    transcript_pieces = await loop.run_in_executor(None, transcript.fetch)
                     formatter = TextFormatter()
-                    return formatter.format_transcript(transcript_pieces), None
-                except Exception as e2:
-                    # If we still can't find it, try to find any transcript at all
-                    try:
-                        # Get the first available transcript
-                        transcript = next(iter(transcript_list))
-                        found_lang = transcript.language_code
-                        transcript_pieces = transcript.fetch()
-                        formatter = TextFormatter()
-                        return formatter.format_transcript(transcript_pieces), found_lang
-                    except Exception as e3:
-                        # If all else fails, return the original error
-                        error_msg = str(e).lower()
-                        if "no transcript found" in error_msg or "could not find a transcript" in error_msg:
-                            return None, f"No transcript found in {lang}"
-                        return None, f"Error retrieving transcript (new API): {str(e)}"
+                    return formatter.format_transcript(transcript_pieces), transcript.language_code
+                except Exception as e:
+                    logger.info(f"No manual transcript found: {str(e)}")
+            
+            # If no manual transcript found or auto_generated is True, try auto-generated
+            try:
+                transcript = await loop.run_in_executor(
+                    None,
+                    lambda: transcript_list.find_generated_transcript([lang] if lang else None)
+                )
+                transcript_pieces = await loop.run_in_executor(None, transcript.fetch)
+                formatter = TextFormatter()
+                return formatter.format_transcript(transcript_pieces), f"{transcript.language_code} (auto-generated)"
+            except Exception as e:
+                logger.info(f"No auto-generated transcript found: {str(e)}")
+                error_msg = str(e).lower()
+                if "no transcript found" in error_msg or "could not find a transcript" in error_msg:
+                    return None, f"No transcript found in {lang}"
+                return None, f"Error retrieving transcript (new API): {str(e)}"
             
         except Exception as e:
             error_msg = str(e).lower()
@@ -161,11 +165,12 @@ class YouTubeService:
                     'subtitleslangs': [lang],
                     'quiet': True,
                     'no_warnings': True,
-                    'outtmpl': os.path.join(temp_dir, '%(id)s'),
+                    'outtmpl': os.path.join(temp_dir, '%(id)s')
                 }
                 
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     # Extract info to get available subtitles
+                    logger.info(f"[SUBTITLES] Extracting info for video {video_id}")
                     info = ydl.extract_info(f'https://www.youtube.com/watch?v={video_id}', download=False)
                     
                     # Check if subtitles are available
@@ -173,6 +178,7 @@ class YouTubeService:
                         return None, "No subtitles available for this video"
                     
                     # Download the subtitles
+                    logger.info(f"[SUBTITLES] Downloading subtitles for video {video_id}")
                     ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
                     
                     # Look for the downloaded subtitle file
@@ -184,13 +190,15 @@ class YouTubeService:
                             return None, "Could not find downloaded subtitles"
                     
                     # Read and return the subtitle content
+                    logger.info(f"[SUBTITLES] Reading subtitles from {sub_file}")
                     with open(sub_file, 'r', encoding='utf-8') as f:
                         return f.read(), None
                         
         except Exception as e:
+            logger.error(f"[SUBTITLES] Error in yt-dlp: {str(e)}")
             return None, f"Error retrieving transcript with yt-dlp: {str(e)}"
     
-    def get_subtitles(self, video_id: str, lang: str = None, auto_generated: bool = False) -> Tuple[Optional[str], Optional[str]]:
+    async def get_subtitles(self, video_id: str, lang: str = None, auto_generated: bool = False) -> Tuple[Optional[str], Optional[str]]:
         """
         Get subtitles for a YouTube video, trying multiple methods.
         
@@ -203,6 +211,8 @@ class YouTubeService:
             Tuple of (transcript_text, language_or_error) where language_or_error is either the language code
             of the found transcript or an error message if no transcript was found
         """
+        logger.info(f"[SUBTITLES] Starting subtitle retrieval for video {video_id} with lang={lang}, auto_generated={auto_generated}")
+        logger.info(f"[SUBTITLES] Using youtube-transcript-api version: {self.api_version}")
         errors = []
         
         # Try youtube-transcript-api first if available
@@ -210,12 +220,12 @@ class YouTubeService:
             try:
                 # If no language specified, try to get native language subtitles
                 if lang is None:
-                    logger.info("No language specified, trying to get native language subtitles")
+                    logger.info("[SUBTITLES] No language specified, trying to get native language subtitles")
                     try:
                         # First try to get the video's native language
                         transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
                         native_lang = transcript_list.video_language_code
-                        logger.info(f"Found video's native language: {native_lang}")
+                        logger.info(f"[SUBTITLES] Found video's native language: {native_lang}")
                         
                         # Try to get manual subtitles in native language
                         try:
@@ -224,7 +234,7 @@ class YouTubeService:
                             formatter = TextFormatter()
                             return formatter.format_transcript(transcript_pieces), native_lang
                         except Exception as e:
-                            logger.info(f"No manual subtitles in native language, trying auto-generated: {str(e)}")
+                            logger.info(f"[SUBTITLES] No manual subtitles in native language, trying auto-generated: {str(e)}")
                             # If no manual subtitles, try auto-generated in native language
                             try:
                                 transcript = transcript_list.find_generated_transcript([native_lang])
@@ -232,31 +242,34 @@ class YouTubeService:
                                 formatter = TextFormatter()
                                 return formatter.format_transcript(transcript_pieces), f"{native_lang} (auto-generated)"
                             except Exception as e2:
-                                logger.info(f"No auto-generated subtitles in native language: {str(e2)}")
+                                logger.info(f"[SUBTITLES] No auto-generated subtitles in native language: {str(e2)}")
                     except Exception as e:
-                        logger.warning(f"Could not determine native language: {str(e)}")
+                        logger.warning(f"[SUBTITLES] Could not determine native language: {str(e)}")
                         pass  # Continue with the rest of the logic
                 
                 # If we get here, either a specific language was requested or we couldn't determine native language
-                logger.info(f"Trying to get subtitles for language: {lang if lang else 'any'}")
+                logger.info(f"[SUBTITLES] Trying to get subtitles for language: {lang if lang else 'any'}")
                 
                 # Try with the new API first if available
                 if pkg_resources.parse_version(self.api_version) > pkg_resources.parse_version("0.6.1"):
-                    result = self._handle_new_api(video_id, lang, auto_generated)
+                    logger.info("[SUBTITLES] Using new API")
+                    result = await self._handle_new_api(video_id, lang, auto_generated)
                     if result[0] is not None:
-                        logger.info(f"Successfully retrieved transcript using new API in language: {result[1]}")
+                        logger.info(f"[SUBTITLES] Successfully retrieved transcript using new API in language: {result[1]}")
                         return result
                     errors.append(f"New API: {result[1] if len(result) > 1 else 'Unknown error'}")
                 
                 # Fall back to old API if new API fails or is not available
-                result = self._handle_old_api(video_id, lang if lang else 'en')
+                logger.info("[SUBTITLES] Using old API")
+                result = await self._handle_old_api(video_id, lang if lang else 'en')
                 if result[0] is not None:
-                    logger.info(f"Successfully retrieved transcript using old API in language: {result[1]}")
+                    logger.info(f"[SUBTITLES] Successfully retrieved transcript using old API in language: {result[1]}")
                     return result
                 errors.append(f"Old API: {result[1] if len(result) > 1 else 'Unknown error'}")
                         
             except Exception as e:
                 error_msg = str(e).lower()
+                logger.error(f"[SUBTITLES] Error in youtube-transcript-api: {error_msg}")
                 if any(term in error_msg for term in ["video unavailable", "not found", "does not exist"]):
                     return None, "Video is not available (may have been removed)"
                 elif "private" in error_msg or "members only" in error_msg:
@@ -269,10 +282,10 @@ class YouTubeService:
         
         # If we get here, youtube-transcript-api failed or is not available, try yt-dlp
         if YT_DLP_AVAILABLE:
-            logger.info(f"Trying to get subtitles with yt-dlp for language: {lang}")
+            logger.info(f"[SUBTITLES] Trying yt-dlp for language: {lang}")
             result = self._get_subtitles_with_ytdlp(video_id, lang)
             if result[0] is not None:
-                logger.info("Successfully retrieved transcript using yt-dlp")
+                logger.info("[SUBTITLES] Successfully retrieved transcript using yt-dlp")
                 return result
             else:
                 errors.append(f"yt-dlp: {result[1] if result[1] else 'Unknown error'}")
@@ -280,4 +293,30 @@ class YouTubeService:
             errors.append("yt-dlp not installed")
         
         # If we get here, all methods failed
-        return None, "Could not retrieve transcript. Errors: " + "; ".join(errors)
+        error_details = {
+            "new_api": errors[0] if len(errors) > 0 else "Not attempted",
+            "old_api": errors[1] if len(errors) > 1 else "Not attempted",
+            "yt_dlp": errors[2] if len(errors) > 2 else "Not attempted"
+        }
+        
+        # Translate error messages to Russian
+        translated_errors = {
+            "new_api": error_details["new_api"].replace("Could not retrieve transcript (new API):\n", "Не удалось получить транскрипт (новый API):\n")
+            if isinstance(error_details["new_api"], str) else error_details["new_api"],
+            "old_api": error_details["old_api"].replace("Could not retrieve transcript (old API):\n", "Не удалось получить транскрипт (старый API):\n")
+            if isinstance(error_details["old_api"], str) else error_details["old_api"],
+            "yt_dlp": error_details["yt_dlp"].replace("Error retrieving transcript with yt-dlp: ERROR:", "Ошибка получения транскрипта с yt-dlp: ОШИБКА:")
+            if isinstance(error_details["yt_dlp"], str) else error_details["yt_dlp"]
+        }
+        
+        logger.error(f"[SUBTITLES] All methods failed. Errors: {error_details}")
+        return None, {
+            "error": "retrieval_failed",
+            "message": "Не удалось получить транскрипт",
+            "video": {
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "id": video_id,
+                "language": lang
+            },
+            "details": translated_errors
+        }

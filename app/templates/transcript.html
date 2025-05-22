@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Transcript Extractor</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Transcript Extractor</h1>
+        <form id="transcriptForm">
+            <div class="form-group">
+                <label for="videoUrl">YouTube Video URL:</label>
+                <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+            </div>
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <select id="language">
+                    <option value="auto">Auto-detect</option>
+                    <option value="en">English</option>
+                    <option value="ru">Русский</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="zh-Hans">中文 (简体)</option>
+                    <option value="zh-Hant">中文 (繁體)</option>
+                    <option value="ja">日本語</option>
+                    <option value="ko">한국어</option>
+                    <option value="ar">العربية</option>
+                    <option value="he">עברית</option>
+                </select>
+            </div>
+            <button type="submit" id="submitBtn">Get Transcript</button>
+        </form>
+        <div id="loading" class="loading">
+            Loading transcript...
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/transcript.js') }}"></script>
+</body>
+</html>
