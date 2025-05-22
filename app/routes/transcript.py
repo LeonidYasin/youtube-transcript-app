@@ -336,6 +336,15 @@ HTML_FORM = """
                 } finally {
                     setLoading(false);
                 }
+            });
+        });
+    </script>
+</body>
+</html>"""
+
+# ... rest of your code remains the same ...
+
+@router.get("/")
 async def get_transcript_page(request: Request):
     """Serve the transcript extraction page."""
     return templates.TemplateResponse("index.html", {"request": request})
